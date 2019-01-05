@@ -8,8 +8,8 @@ pub struct Templates {
     id: Cell,
 }
 
-define_native!(CreateTemplate, template: String);
-define_native!(RenderTemplate, id: Cell, dest: ref Cell);
+define_native!(create_template, template: String);
+define_native!(render_template, id: Cell, dest: ref Cell);
 
 impl Templates {
     pub fn load(&self) -> bool {
@@ -20,16 +20,26 @@ impl Templates {
         return;
     }
 
-    pub fn amx_load(&self, _: &AMX) -> Cell {
-        return AMX_ERR_NONE;
+    pub fn amx_load(&self, amx: &AMX) -> Cell {
+        let natives = natives! {
+            "CreateTemplate" => create_template,
+            "RenderTemplate" => render_template
+        };
+
+        match amx.register(&natives) {
+            Ok(_) => AMX_ERR_NONE,
+            Err(err) => {
+                log!("failed to register natives: {:?}", err);
+                AMX_ERR_INIT
+            }
+        }
     }
 
     pub fn amx_unload(&self, _: &AMX) -> Cell {
         return AMX_ERR_NONE;
     }
 
-    #[allow(non_snake_case)]
-    pub fn CreateTemplate(&mut self, _: &AMX, template: String) -> AmxResult<Cell> {
+    pub fn create_template(&mut self, _: &AMX, template: String) -> AmxResult<Cell> {
         let id = self.alloc();
 
         let parser = liquid::ParserBuilder::with_liquid().build().unwrap();
@@ -46,8 +56,7 @@ impl Templates {
         return Ok(id);
     }
 
-    #[allow(non_snake_case)]
-    pub fn RenderTemplate(&mut self, _: &AMX, id: Cell, dest: &mut Cell) -> AmxResult<Cell> {
+    pub fn render_template(&mut self, _: &AMX, id: Cell, dest: &mut Cell) -> AmxResult<Cell> {
         let t = match self.pool.get(&id) {
             Some(t) => t,
             None => return Ok(1),
@@ -70,7 +79,7 @@ impl Templates {
 
         set_string!(s, dest, s.len());
 
-        return Ok(id);
+        return Ok(0);
     }
 
     fn alloc(&mut self) -> Cell {
