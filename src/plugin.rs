@@ -1,9 +1,9 @@
-use std::collections::HashMap;
-use samp_sdk::amx::{AMX, AmxResult};
+use samp_sdk::amx::{AmxResult, AMX};
 use samp_sdk::consts::*;
 use samp_sdk::types::Cell;
+use std::collections::HashMap;
 
-pub struct Templates{
+pub struct Templates {
     pool: HashMap<Cell, liquid::Template>,
     id: Cell,
 }
@@ -39,7 +39,7 @@ impl Templates {
             Err(e) => {
                 log!("{}", e);
                 return Ok(1);
-            },
+            }
         };
         self.pool.insert(id, t);
 
@@ -56,17 +56,14 @@ impl Templates {
         let mut variables = liquid::value::Object::new();
 
         // TODO: read variadics and transform into variables
-        variables.insert(
-            "name".into(),
-            liquid::value::Value::scalar("Southclaws")
-        );
+        variables.insert("name".into(), liquid::value::Value::scalar("Southclaws"));
 
         let output = match t.render(&variables) {
             Ok(v) => v,
             Err(e) => {
                 log!("{}", e);
                 return Ok(1);
-            },
+            }
         };
 
         let s = String::into_bytes(output);
@@ -81,7 +78,6 @@ impl Templates {
         return self.id;
     }
 }
-
 
 impl Default for Templates {
     fn default() -> Self {
