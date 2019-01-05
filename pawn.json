@@ -1,0 +1,20 @@
+{
+  "user": "Southclaws",
+  "repo": "pawn-templates",
+  "entry": "test.pwn",
+  "output": "test/gamemodes/test.amx",
+  "dependencies": ["Southclaws/samp-stdlib"],
+  "dev_dependencies": ["pawn-lang/YSI-Includes"],
+  "resources": [
+    {
+      "name": "templates.so",
+      "archive": false,
+      "platform": "linux"
+    },
+    {
+      "name": "templates.dll",
+      "archive": false,
+      "platform": "windows"
+    }
+  ]
+}
