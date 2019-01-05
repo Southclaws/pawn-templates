@@ -1,0 +1,12 @@
+[package]
+name = "pawn-templates"
+version = "0.1.0"
+authors = ["Southclaws <hello@southcla.ws>"]
+
+[lib]
+name = "pawn-templates"
+crate-type = ["dylib"]
+
+[dependencies]
+samp-sdk = "0.8.4"
+liquid = "0.18"
