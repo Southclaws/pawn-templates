@@ -7,7 +7,7 @@ build-release:
 	cp target/release/pawn_templates.dll test/plugins/templates.dll
 
 build-debug:
-	cargo +stable-i686-pc-windows-msvc build --debug
+	cargo +stable-i686-pc-windows-msvc build
 	cp target/debug/pawn_templates.dll test/plugins/templates.dll
 
 # -

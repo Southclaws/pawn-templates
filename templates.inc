@@ -11,4 +11,4 @@
 
 
 native Template:CreateTemplate(const template[]);
-native RenderTemplate(Template:id, dest[]);
+native RenderTemplate(Template:id, dest[], len, ...);
