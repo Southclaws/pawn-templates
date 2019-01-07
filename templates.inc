@@ -9,6 +9,15 @@
 #endif
 #define _templates_included
 
+enum {
+    TYPE_STR = 1,
+    TYPE_INT,
+    TYPE_FLOAT
+}
+
+#define PAIR_STR(%0,%1) TYPE_STR, %0, %1
+#define PAIR_INT(%0,%1) TYPE_INT, %0, %1
+#define PAIR_FLOAT(%0,%1) TYPE_FLOAT, %0, _:%1
 
 native Template:CreateTemplate(const template[]);
 native RenderTemplate(Template:id, dest[], len, ...);

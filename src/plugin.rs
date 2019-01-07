@@ -88,7 +88,8 @@ impl Templates {
 
         let mut parser = args::Parser::new(params);
         expand_args!(@amx, parser, template_id: Cell);
-        expand_args!(@amx, parser, output_string: &mut Cell);
+        expand_args!(@amx, parser, output_string_amx: Cell);
+        let output_string = amx.get_address(output_string_amx)?;
         expand_args!(@amx, parser, output_length: usize);
 
         log!(
@@ -153,8 +154,8 @@ impl Templates {
 
         log!("Rendered output: {}", output);
 
-        let bytes = String::into_bytes(output);
-        set_string!(bytes, output_string, output_length);
+        let encoded = samp_sdk::cp1251::encode(&output)?;
+        set_string!(encoded, output_string, output_length);
 
         return Ok(0);
     }
@@ -182,6 +183,13 @@ fn get_arg_ref<T: Clone>(amx: &AMX, parser: &mut args::Parser, out_ref: &mut T) 
 
 fn get_arg_string(amx: &AMX, parser: &mut args::Parser, out_str: &mut String) -> i32 {
     expand_args!(@amx, parser, tmp_str: String);
-    *out_str = tmp_str;
-    return 1;
+    match samp_sdk::cp1251::decode_to(&tmp_str.into_bytes(), out_str) {
+        Ok(_) => {
+            return 1;
+        },
+        Err(e) => {
+            log!("{}", e);
+            return 0;
+        }
+    }
 }
