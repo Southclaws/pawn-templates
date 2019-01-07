@@ -8,7 +8,7 @@ name = "pawn_templates"
 crate-type = ["dylib"]
 
 [dependencies]
-samp-sdk = { git="https://github.com/Southclaws/samp-sdk", branch="remove-detour-dep" }
+samp-sdk = { git="https://github.com/ZOTTCE/samp-sdk" }
 liquid = "0.18"
 
 [features]
