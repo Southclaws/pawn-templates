@@ -78,7 +78,7 @@ impl Templates {
 
     pub fn render_template(&mut self, amx: &AMX, params: *mut Cell) -> AmxResult<Cell> {
         let varargc = args_count!(params) - 3;
-        let pairs = match varargc > 0 && varargc % 3 == 0 {
+        let pairs = match varargc == 0 || varargc % 3 == 0 {
             true => varargc / 3,
             false => {
                 log!("Invalid number of arguments passed to RenderTemplate");
@@ -92,16 +92,9 @@ impl Templates {
         let output_string = amx.get_address(output_string_amx)?;
         expand_args!(@amx, parser, output_length: usize);
 
-        log!(
-            "Template ID: {}, Output dest: {:p}, Output length: {}",
-            template_id,
-            output_string,
-            output_length
-        );
-
         let t = match self.pool.get(&template_id) {
             Some(t) => t,
-            None => return Ok(1),
+            None => return Ok(2),
         };
 
         let mut variables = liquid::value::Object::new();
@@ -115,32 +108,21 @@ impl Templates {
 
             match ArgumentPairType::from_i32(pair_type) {
                 ArgumentPairType::String => {
-                    log!("Type is string");
-
                     let mut val = String::new();
                     get_arg_string(amx, &mut parser, &mut val);
-
                     variables.insert(key.into(), liquid::value::Value::scalar(val));
                 }
                 ArgumentPairType::Int => {
-                    log!("Type is int");
-
                     let mut val: Cell = 0;
                     get_arg_ref(amx, &mut parser, &mut val);
-
                     variables.insert(key.into(), liquid::value::Value::scalar(val));
                 }
                 ArgumentPairType::Float => {
-                    log!("Type is float");
-
                     let mut val: f32 = 0.0;
                     get_arg_ref(amx, &mut parser, &mut val);
-
                     variables.insert(key.into(), liquid::value::Value::scalar(val as f64));
                 }
-                _ => {
-                    log!("Type is unknown");
-                }
+                _ => return Ok(3),
             };
         }
 
@@ -148,11 +130,9 @@ impl Templates {
             Ok(v) => v,
             Err(e) => {
                 log!("{}", e);
-                return Ok(1);
+                return Ok(4);
             }
         };
-
-        log!("Rendered output: {}", output);
 
         let encoded = samp_sdk::cp1251::encode(&output)?;
         set_string!(encoded, output_string, output_length);
@@ -186,7 +166,7 @@ fn get_arg_string(amx: &AMX, parser: &mut args::Parser, out_str: &mut String) ->
     match samp_sdk::cp1251::decode_to(&tmp_str.into_bytes(), out_str) {
         Ok(_) => {
             return 1;
-        },
+        }
         Err(e) => {
             log!("{}", e);
             return 0;
