@@ -1,0 +1,20 @@
+{
+  "package": {
+    "name": "builds",
+    "repo": "pawn-templates",
+    "subject": "southclaws"
+  },
+  "version": {
+    "name": "latest"
+  },
+  "files": [
+    {
+      "includePattern": "test/plugins/templates.so",
+      "uploadPattern": "$1",
+      "matrixParams": {
+        "override": 1
+      }
+    }
+  ],
+  "publish": true
+}
