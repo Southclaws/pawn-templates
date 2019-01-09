@@ -2,6 +2,10 @@
 # Development
 # -
 
+prepare:
+	cd test && sampctl server ensure && mkdir plugins
+	sampctl package ensure
+
 toolchain-win32:
 	rustup default stable-i686-pc-windows-msvc
 
@@ -23,14 +27,6 @@ build-linux-release: toolchain-linux
 build-linux-debug: toolchain-linux
 	cargo +stable-i686-unknown-linux-gnu build
 	cp target/debug/libpawn_templates.so test/plugins/templates.so
-
-# -
-# Setup test requirements
-# -
-
-test-setup:
-	cd test && sampctl server ensure
-	sampctl package ensure
 
 # -
 # Run Tests

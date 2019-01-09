@@ -7,8 +7,9 @@ addons:
       - g++-multilib
 
 script:
+  - make prepare
   - make build-linux-release
-  - make test-setup test-native
+  - make test-native
 
 deploy:
   on:
