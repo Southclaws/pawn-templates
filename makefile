@@ -2,13 +2,27 @@
 # Development
 # -
 
-build-release:
+toolchain-win32:
+	rustup default stable-i686-pc-windows-msvc
+
+build-win32-release: toolchain-win32
 	cargo +stable-i686-pc-windows-msvc build --release
 	cp target/release/pawn_templates.dll test/plugins/templates.dll
 
-build-debug:
+build-win32-debug: toolchain-win32
 	cargo +stable-i686-pc-windows-msvc build
 	cp target/debug/pawn_templates.dll test/plugins/templates.dll
+
+toolchain-linux:
+	rustup default stable-i686-unknown-linux-gnu
+
+build-linux-release: toolchain-linux
+	cargo +stable-i686-unknown-linux-gnu build --release
+	cp target/release/libpawn_templates.so test/plugins/templates.so
+
+build-linux-debug: toolchain-linux
+	cargo +stable-i686-unknown-linux-gnu build
+	cp target/debug/libpawn_templates.so test/plugins/templates.so
 
 # -
 # Setup test requirements
@@ -36,9 +50,5 @@ test-container:
 
 build-container:
 	rm -rf build
-	docker build -t southclaws/projectname-build .
-	docker run -v $(shell pwd)/test/plugins:/root/test/plugins southclaws/projectname-build
-
-# this make target is only run inside the container
-build-inside:
-	cd build && cmake .. && make
+	docker build -t southclaws/templates-build .
+	docker run -v $(shell pwd)/test/plugins:/root/test/plugins southclaws/templates-build
