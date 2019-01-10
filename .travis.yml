@@ -7,10 +7,10 @@ addons:
       - g++-multilib
 
 before_install:
-  - cd /home/travis/build/
-  - curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-bin.sh | sh
-  - alias sampctl=/home/travis/build/sampctl
-  - cd /home/travis/build/Southclaws/pawn-templates
+  - cd $HOME && curl -Ls https://github.com/Southclaws/sampctl/releases/download/1.8.37/sampctl_1.8.37_linux_amd64.tar.gz -o ./bin/tmp.tar.gz
+  - cd bin && tar xzf tmp.tar.gz && rm tmp.tar.gz
+  - alias sampctl=$HOME/bin/sampctl
+  - cd $HOME/build/Southclaws/pawn-templates
 
 before_script:
   - make prepare
