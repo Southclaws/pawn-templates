@@ -3,7 +3,7 @@
 # -
 
 prepare:
-	cd test && sampctl server ensure && mkdir plugins
+	cd test && sampctl server ensure
 	sampctl package ensure
 
 toolchain-win32:
