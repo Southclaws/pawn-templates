@@ -6,10 +6,9 @@ addons:
       - gcc-multilib
       - g++-multilib
 
-install:
-  - cd /root/bin
+before_install:
+  - pwd
   - curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-bin.sh | sh
-  - alias sampctl=/root/bin/sampctl
 
 before_script:
   - make prepare
