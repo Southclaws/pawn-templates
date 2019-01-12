@@ -12,7 +12,7 @@
   "files": [
     {
       "includePattern": "test/plugins/templates.so",
-      "uploadPattern": "$1",
+      "uploadPattern": "templates.so",
       "matrixParams": {
         "override": 1
       }
