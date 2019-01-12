@@ -14,6 +14,7 @@ install:
   - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
   - rustc -Vv
   - cargo -V
+  - cd test && sampctl server ensure
 
 build_script:
   - cargo build --release
