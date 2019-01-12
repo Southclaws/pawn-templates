@@ -18,8 +18,8 @@ install:
 
 build_script:
   - cargo build --release
-  - dir target\release
-  - cp target\release\pawn_templates.dll test\plugins\templates.dll
+  - dir .\target\release
+  - cp .\target\release\pawn_templates.dll .\test\plugins\templates.dll
 
 test_script:
   - sampctl package ensure
