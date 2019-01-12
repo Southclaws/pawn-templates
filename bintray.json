@@ -2,14 +2,16 @@
   "package": {
     "name": "builds",
     "repo": "pawn-templates",
-    "subject": "southclaws"
+    "subject": "southclaws",
+    "vcs_url": "https://github.com/Southclaws/pawn-templates",
+    "licenses": ["MIT"]
   },
   "version": {
     "name": "latest"
   },
   "files": [
     {
-      "includePattern": "(test/plugins/templates\\.so)",
+      "includePattern": "(\\./test/plugins/templates\\.so)",
       "uploadPattern": "$1",
       "matrixParams": {
         "override": 1
