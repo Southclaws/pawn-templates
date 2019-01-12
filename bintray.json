@@ -11,7 +11,7 @@
   },
   "files": [
     {
-      "includePattern": "(\\./test/plugins/templates\\.so)",
+      "includePattern": "test/plugins/templates.so",
       "uploadPattern": "$1",
       "matrixParams": {
         "override": 1
