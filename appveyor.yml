@@ -16,6 +16,9 @@ install:
 
 build_script:
   - cargo build --release
+  - dir
+  - dir target
+  - dir target/release
   - cp target/release/pawn_templates.dll test/plugins/templates.dll
 
 test_script:
